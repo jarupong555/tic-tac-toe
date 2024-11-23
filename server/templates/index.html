@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Setup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        /* ตั้งค่าพื้นหลัง */
+        body {
+            background-color: #3a3a3a;
+            font-family: 'VT323', monospace;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* กรอบกระดาษ */
+        .setup-container {
+            position: relative;
+            background-image: url('/static/images/pngwing.png'); /* อ้างอิงรูปกระดาษ */
+            background-size: 110% 110%; /* ปรับให้รูปใหญ่กว่าเนื้อหา */
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 500px; /* เพิ่มความกว้างของกรอบ */
+            padding: 60px 40px;
+            box-shadow: none; /* ลบเงาออก */
+        }
+
+        /* เนื้อหาในกระดาษ */
+        .content {
+            position: relative;
+            background-color: transparent;
+            padding: 20px;
+        }
+
+        /* หัวข้อ */
+        h1 {
+            font-size: 2.5rem;
+            color: #ff4500;
+            text-shadow: 2px 2px 3px #000;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* ฟอร์มและปุ่ม */
+        .form-label {
+            font-size: 18px;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .option-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-option {
+            flex: 1;
+            height: 50px; /* เพิ่มความสูงของปุ่ม */
+            background-color: #666;
+            color: white;
+            border: none;
+            font-size: 18px;
+            margin: 0;
+            border-radius: 5px;
+        }
+
+        .btn-option:hover {
+            background-color: #444;
+        }
+
+        .btn-option.selected {
+            background-color: #FFA500;
+            border: 2px solid #FFCC66;
+        }
+
+        .btn-primary {
+            background-color: #333;
+            border: none;
+            font-size: 18px;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #555;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="content">
+            <h1>Setup Your Game</h1>
+            <form>
+                <!-- ชื่อผู้เล่น -->
+                <div class="mb-3">
+                    <label for="player-name" class="form-label">Your Name</label>
+                    <input type="text" id="player-name" class="form-control" placeholder="Enter your name">
+                </div>
+
+                <!-- เลือกสัญลักษณ์ -->
+                <div class="mb-3">
+                    <label class="form-label">Choose Your Symbol</label>
+                    <div class="option-group">
+                        <button type="button" class="btn btn-option" id="symbol-x" onclick="selectSymbol('X')">X</button>
+                        <button type="button" class="btn btn-option" id="symbol-o" onclick="selectSymbol('O')">O</button>
+                    </div>
+                    <input type="hidden" id="player-symbol">
+                </div>
+
+                <!-- ระดับความยากของบอท -->
+                <div class="mb-3">
+                    <label class="form-label">Bot Difficulty</label>
+                    <div class="option-group">
+                        <button type="button" class="btn btn-option" id="difficulty-easy" onclick="selectDifficulty('easy')">Easy</button>
+                        <button type="button" class="btn btn-option" id="difficulty-medium" onclick="selectDifficulty('medium')">Medium</button>
+                        <button type="button" class="btn btn-option" id="difficulty-pro" onclick="selectDifficulty('pro')">Pro</button>
+                    </div>
+                    <input type="hidden" id="bot-level">
+                </div>
+
+                <!-- ปุ่มเริ่มเกม -->
+                <button type="button" class="btn btn-primary" onclick="startGame()">Start Game</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันเลือกสัญลักษณ์
+        function selectSymbol(symbol) {
+            document.getElementById('player-symbol').value = symbol;
+            document.getElementById('symbol-x').classList.remove('selected');
+            document.getElementById('symbol-o').classList.remove('selected');
+            if (symbol === 'X') {
+                document.getElementById('symbol-x').classList.add('selected');
+            } else {
+                document.getElementById('symbol-o').classList.add('selected');
+            }
+        }
+
+        // ฟังก์ชันเลือกความยากของบอท
+        function selectDifficulty(level) {
+            document.getElementById('bot-level').value = level;
+            document.getElementById('difficulty-easy').classList.remove('selected');
+            document.getElementById('difficulty-medium').classList.remove('selected');
+            document.getElementById('difficulty-pro').classList.remove('selected');
+            if (level === 'easy') {
+                document.getElementById('difficulty-easy').classList.add('selected');
+            } else if (level === 'medium') {
+                document.getElementById('difficulty-medium').classList.add('selected');
+            } else {
+                document.getElementById('difficulty-pro').classList.add('selected');
+            }
+        }
+
+        // ฟังก์ชันเริ่มเกม
+        function startGame() {
+            const playerName = document.getElementById('player-name').value;
+            const playerSymbol = document.getElementById('player-symbol').value;
+            const botLevel = document.getElementById('bot-level').value;
+
+            if (!playerName) {
+                alert('Please enter your name!');
+                return;
+            }
+            if (!playerSymbol) {
+                alert('Please choose your symbol!');
+                return;
+            }
+            if (!botLevel) {
+                alert('Please select bot difficulty!');
+                return;
+            }
+
+            // ส่งข้อมูลไปยังเซิร์ฟเวอร์
+            fetch('/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ player: playerName, level: botLevel })
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('playerName', playerName);
+                localStorage.setItem('playerSymbol', playerSymbol);
+                localStorage.setItem('botLevel', botLevel);
+                window.location.href = '/game';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
