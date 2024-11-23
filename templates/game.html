@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="game-container bg-white p-4 rounded shadow text-center">
+        <h1 class="mb-4">Tic Tac Toe</h1>
+        <div id="message" class="alert alert-info d-none"></div>
+        <div id="board" class="board mb-4"></div>
+        
+        <!-- Total Score Container -->
+        <div class="total-score-container mb-4 p-2 rounded bg-warning text-dark">
+            <h3>Total Score: <span id="total-score" class="display-6"></span></h3>
+            <button class="btn btn-link p-0" onclick="showHistory()">
+                <img src="/static/images/goalie-glass.png" alt="History" style="width: 30px;">
+            </button>
+        </div>
+        
+        <div class="scoreboard d-flex justify-content-around text-start mb-4 p-3 bg-secondary text-white rounded">
+            <div>
+                <p><strong>Player:</strong> <span id="player-score">0</span></p>
+                <p><strong>Bot:</strong> <span id="bot-score">0</span></p>
+                <p><strong>Draws:</strong> <span id="draws">0</span></p>
+                <p><strong>Streak:</strong> <span id="streak">0</span></p>
+            </div>
+            <div>
+                <p><strong>Bot Level:</strong> <span id="bot-level">easy</span></p>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <button class="btn btn-danger btn-lg" onclick="resetScores()">Reset Scores</button>
+            <button class="btn btn-secondary btn-lg" onclick="goToHome()">Back to Home</button>
+        </div>
+    </div>
+    
+    <div id="history-popup" class="popup-overlay d-none">
+        <div class="popup">
+            <h4>Game History</h4>
+            <ul id="history-list"></ul>
+            <button class="btn btn-primary" onclick="closeHistory()">Close</button>
+            <button class="btn btn-warning" onclick="resetHistory()">Reset History</button>
+        </div>
+    </div>
+
+    <script src="/static/js/game.js"></script>
+</body>
+</html>
